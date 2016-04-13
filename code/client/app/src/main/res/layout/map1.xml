@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.46"
+        android:clickable="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/editText"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.47"
+        android:text="是否立即开始跑步？"
+        android:gravity="center_vertical|center_horizontal"
+        android:allowUndo="false"
+        android:autoText="false"
+        android:background="@drawable/home_btn_bg_d"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:clickable="false"
+        android:editable="false" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/start_button" />
+
+
+</LinearLayout>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Running Cat</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="main_comment">评论</string>
+    <string name="main_message">私信</string>
+    <string name="information">个人</string>
+    <string name="maomao">毛毛</string>
+    <string name="run">Run For Cat</string>
+    <string name="battle">毛毛，醒醒</string>
+    <string name="says">毛毛说</string>
+    <string name="demo_name_location">定位图层展示</string>
+</resources>
