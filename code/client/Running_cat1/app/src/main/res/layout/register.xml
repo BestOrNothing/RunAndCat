@@ -2,34 +2,86 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_background"
     android:stretchColumns="1">
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="新用户注册"
+        android:id="@+id/textView1"
+        android:layout_column="3"
+        android:clickable="false"
+        android:editable="false"
+        android:gravity="center"
+        android:textSize="23dp"
+        android:background="@drawable/home_btn_bg_d" />
+
+
     <TableRow>
-        <TextView
-            android:layout_height="wrap_content"
-            android:text="Account:"/>
-        <EditText
-            android:id="@+id/account"
-            android:layout_height="wrap_content"
-            android:hint="Input your account"/>
+        <Space
+            android:layout_span="5"
+            android:layout_height="200dp"
+            />
     </TableRow>
 
     <TableRow>
         <TextView
             android:layout_height="wrap_content"
-            android:text="Password" />
+            android:text="用户名："
+            android:textStyle="bold"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="18dp" />
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/account1"
             android:layout_height="wrap_content"
+            android:hint="请输入账号（邮箱）" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_height="wrap_content"
+            android:text="密码："
+            android:textStyle="bold"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="18dp" />
+        <EditText
+            android:id="@+id/password1"
+            android:layout_height="wrap_content"
+            android:hint="请输入密码"
             android:inputType="textPassword" />
     </TableRow>
 
     <TableRow>
-        <Button
+        <TextView
+            android:layout_height="wrap_content"
+            android:text="确认密码："
+            android:textStyle="bold"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="18dp" />
+        <EditText
+            android:id="@+id/password2"
+            android:layout_height="wrap_content"
+            android:hint="请确认密码"
+            android:inputType="textPassword" />
+    </TableRow>
+
+    <TableRow>
+        <Space
+            android:layout_span="5"
+            android:layout_height="20dp"
+            />
+    </TableRow>
+
+
+    <Button
             android:id="@+id/register_button"
             android:layout_height="wrap_content"
             android:layout_span="2"
-            android:text="Register"/>
-    </TableRow>
+            android:text="完成注册"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="16dp" />
+
 
 </TableLayout>

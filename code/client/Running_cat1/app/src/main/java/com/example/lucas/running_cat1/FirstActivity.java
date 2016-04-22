@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.Manifest;
@@ -53,9 +55,30 @@ import java.util.List;
 public class FirstActivity extends Activity{
 
   @Override
-   protected void onCreate(Bundle saveInstanceState){
-        super.onCreate(saveInstanceState);
-        setContentView(R.layout.one);
-        setTitle("第一个页面");
-    }
+   protected void onCreate(Bundle saveInstanceState) {
+      super.onCreate(saveInstanceState);
+      setContentView(R.layout.one);
+
+      //添加图片按钮点击事件
+      ImageButton feedButton = (ImageButton) findViewById(R.id.feedButton);
+      feedButton.setOnTouchListener(new View.OnTouchListener() {
+          @Override
+          public boolean onTouch(View v, MotionEvent event) {
+
+              if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                  //更改为按下时的背景图片
+                  v.setBackgroundResource(R.drawable.feed1);
+
+              } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                  //改为抬起时的图片
+                  v.setBackgroundResource(R.drawable.feed);
+
+              }
+              return false;
+          }
+      });
+
+  }
+
+
 }

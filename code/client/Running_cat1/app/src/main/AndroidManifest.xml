@@ -54,6 +54,11 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="r7yGbDyxGymTIo8ZnTlLSYGo" />
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 
@@ -107,6 +112,8 @@
 
     <!--允许应用程序更改主屏幕中的设置和快捷方式-->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 
     <supports-screens

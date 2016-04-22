@@ -2,6 +2,7 @@ package com.example.lucas.running_cat1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
@@ -20,26 +21,40 @@ import com.baidu.trace.OnEntityListener;
 import com.baidu.trace.OnStartTraceListener;
 import com.baidu.trace.Trace;
 import com.example.lucas.running_cat1.R;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 public class MapActivity extends Activity {
 
+    private Chronometer timer;
 
+    int miss = 0;
     int gatherInterval = 1;  //位置采集周期 (s)
     int packInterval = 10;  //打包周期 (s)
     String entityName = null;  // entity标识
-    long serviceId = 	114202;// 鹰眼服务ID
+    long serviceId = 114202;// 鹰眼服务ID
     int traceType = 2;  //轨迹服务类型  traceType - ( 0 : 不建立长连接, 1 : 建立长连接但不采集数据, 2 : 建立长连接并采集数据 )
     private static OnStartTraceListener startTraceListener = null;  //开启轨迹服务监听器
 
@@ -56,6 +71,11 @@ public class MapActivity extends Activity {
 
     private Trace trace;  // 实例化轨迹服务
     private LBSTraceClient client;  // 实例化轨迹服务客户端
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +92,130 @@ public class MapActivity extends Activity {
         initOnStartTraceListener();
 
 
+        client.startTrace(trace, startTraceListener);  // 开启轨迹服务
+
+
+        //添加图片按钮点击事件
+        ImageButton startButton = (ImageButton) findViewById(R.id.startButton);
+        startButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //更改为按下时的背景图片
+                    v.setBackgroundResource(R.drawable.start2_button);
+
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //改为抬起时的图片
+                    v.setBackgroundResource(R.drawable.start_button);
+                    jumpToLayout2();
+                }
+
+
+
+                return false;
+            }
+        });
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client2 = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+
+    public void jumpToLayout2() {
+        SDKInitializer.initialize(getApplicationContext());
+
+        setContentView(R.layout.map);
+
+        //获得计时器对象
+        timer = (Chronometer)this.findViewById(R.id.chronometer);
+        timer.setBase(SystemClock.elapsedRealtime());  //计时器清零
+        miss = 0;
+        timer.start();
+        //输出格式为： 时：分：秒
+        timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer ch) {
+                miss++;
+                ch.setText(FormatMiss(miss));
+            }
+        });
+
+        init();
+
+        initOnEntityListener();
+
+        initOnStartTraceListener();
 
         client.startTrace(trace, startTraceListener);  // 开启轨迹服务
+
+        ImageButton pauseButton = (ImageButton) findViewById(R.id.finishButton);
+        pauseButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //更改为按下时的背景图片
+                    v.setBackgroundResource(R.drawable.finish2_button);
+
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //改为抬起时的图片
+                    v.setBackgroundResource(R.drawable.finish_button);
+
+                    //停止计时
+                    timer.stop();
+                    jumpToLayout1();
+                }
+
+                return false;
+            }
+        });
     }
+
+    // 将秒转化成小时分钟秒
+    public String FormatMiss(int miss){
+        String hh=miss/3600>9?miss/3600+"":"0"+miss/3600;
+        String  mm=(miss % 3600)/60>9?(miss % 3600)/60+"":"0"+(miss % 3600)/60;
+        String ss=(miss % 3600) % 60>9?(miss % 3600) % 60+"":"0"+(miss % 3600) % 60;
+        return hh+":"+mm+":"+ss;
+    }
+
+    public void jumpToLayout1() {
+
+        SDKInitializer.initialize(getApplicationContext());
+
+        setContentView(R.layout.map1);
+
+        init();
+
+        initOnEntityListener();
+
+        initOnStartTraceListener();
+
+        client.startTrace(trace, startTraceListener);  // 开启轨迹服务
+
+        ImageButton startButton = (ImageButton) findViewById(R.id.startButton);
+        startButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //更改为按下时的背景图片
+                    v.setBackgroundResource(R.drawable.start2_button);
+
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //改为抬起时的图片
+                    v.setBackgroundResource(R.drawable.start_button);
+                    jumpToLayout2();
+                }
+
+                return false;
+            }
+        });
+
+    }
+
 
     /**
      * 初始化各个参数
@@ -102,17 +243,17 @@ public class MapActivity extends Activity {
     /**
      * 初始化设置实体状态监听器
      */
-    private void initOnEntityListener(){
+    private void initOnEntityListener() {
 
         //实体状态监听器
-        entityListener = new OnEntityListener(){
+        entityListener = new OnEntityListener() {
 
             @Override
             public void onRequestFailedCallback(String arg0) {
                 Looper.prepare();
                 Toast.makeText(
                         getApplicationContext(),
-                        "entity请求失败的回调接口信息："+arg0,
+                        "entity请求失败的回调接口信息：" + arg0,
                         Toast.LENGTH_SHORT)
                         .show();
                 Looper.loop();
@@ -130,8 +271,9 @@ public class MapActivity extends Activity {
     }
 
 
-
-    /** 追踪开始 */
+    /**
+     * 追踪开始
+     */
     private void initOnStartTraceListener() {
 
         // 实例化开启轨迹服务回调接口
@@ -140,7 +282,7 @@ public class MapActivity extends Activity {
             @Override
             public void onTraceCallback(int arg0, String arg1) {
                 Log.i("TAG", "onTraceCallback=" + arg1);
-                if(arg0 == 0 || arg0 == 10006){
+                if (arg0 == 0 || arg0 == 10006) {
                     startRefreshThread(true);
                 }
             }
@@ -153,25 +295,63 @@ public class MapActivity extends Activity {
         };
 
 
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client2.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Map Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.lucas.running_cat1/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client2, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Map Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.lucas.running_cat1/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client2, viewAction);
+        client2.disconnect();
     }
 
 
     /**
      * 轨迹刷新线程
-     *
      */
-    private class RefreshThread extends Thread{
+    private class RefreshThread extends Thread {
 
         protected boolean refresh = true;
 
-        public void run(){
+        public void run() {
 
-            while(refresh){
+            while (refresh) {
                 queryRealtimeTrack();
-                try{
+                try {
                     Thread.sleep(packInterval * 1000);
-                }catch(InterruptedException e){
+                } catch (InterruptedException e) {
                     System.out.println("线程休眠失败");
                 }
             }
@@ -182,7 +362,7 @@ public class MapActivity extends Activity {
     /**
      * 查询实时线路
      */
-    private void queryRealtimeTrack(){
+    private void queryRealtimeTrack() {
 
         String entityName = this.entityName;
         String columnKey = "";
@@ -207,26 +387,26 @@ public class MapActivity extends Activity {
 
     /**
      * 展示实时线路图
+     *
      * @param realtimeTrack
      */
-    protected void showRealtimeTrack(String realtimeTrack){
+    protected void showRealtimeTrack(String realtimeTrack) {
 
-        if(refreshThread == null || !refreshThread.refresh){
+        if (refreshThread == null || !refreshThread.refresh) {
             return;
         }
 
         //数据以JSON形式存取
         RealtimeTrackData realtimeTrackData = GsonService.parseJson(realtimeTrack, RealtimeTrackData.class);
 
-        if(realtimeTrackData != null && realtimeTrackData.getStatus() ==0){
+        if (realtimeTrackData != null && realtimeTrackData.getStatus() == 0) {
 
             LatLng latLng = realtimeTrackData.getRealtimePoint();
 
-            if(latLng != null){
+            if (latLng != null) {
                 pointList.add(latLng);
                 drawRealtimePoint(latLng);
-            }
-            else{
+            } else {
                 Toast.makeText(getApplicationContext(), "当前无轨迹点", Toast.LENGTH_LONG).show();
             }
 
@@ -236,9 +416,10 @@ public class MapActivity extends Activity {
 
     /**
      * 画出实时线路点
+     *
      * @param point
      */
-    private void drawRealtimePoint(LatLng point){
+    private void drawRealtimePoint(LatLng point) {
 
         baiduMap.clear();
         MapStatus mapStatus = new MapStatus.Builder().target(point).build();  //zoom是缩放级别 2-21
@@ -247,7 +428,7 @@ public class MapActivity extends Activity {
         overlay = new MarkerOptions().position(point)
                 .icon(realtimeBitmap).zIndex(9).draggable(true);
 
-        if(pointList.size() >= 2  && pointList.size() <= 1000 ){
+        if (pointList.size() >= 2 && pointList.size() <= 1000) {
             polyline = new PolylineOptions().width(20).color(Color.RED).points(pointList);
         }
 
@@ -256,17 +437,17 @@ public class MapActivity extends Activity {
     }
 
 
-    private void addMarker(){
+    private void addMarker() {
 
-        if(msUpdate != null){
+        if (msUpdate != null) {
             baiduMap.setMapStatus(msUpdate);
         }
 
-        if(polyline != null){
+        if (polyline != null) {
             baiduMap.addOverlay(polyline);
         }
 
-        if(overlay != null){
+        if (overlay != null) {
             baiduMap.addOverlay(overlay);
         }
 
@@ -276,22 +457,22 @@ public class MapActivity extends Activity {
 
     /**
      * 启动刷新线程
+     *
      * @param isStart
      */
-    private void startRefreshThread(boolean isStart){
+    private void startRefreshThread(boolean isStart) {
 
-        if(refreshThread == null){
+        if (refreshThread == null) {
             refreshThread = new RefreshThread();
         }
 
         refreshThread.refresh = isStart;
 
-        if(isStart){
-            if(!refreshThread.isAlive()){
+        if (isStart) {
+            if (!refreshThread.isAlive()) {
                 refreshThread.start();
             }
-        }
-        else{
+        } else {
             refreshThread = null;
         }
 
@@ -301,11 +482,12 @@ public class MapActivity extends Activity {
 
     /**
      * 获取手机的Imei码，作为实体对象的标记值
+     *
      * @param context
      * @return
      */
 
-    private String getImei(Context context){
+    private String getImei(Context context) {
         String mImei = "NULL";
         try {
             mImei = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
@@ -317,8 +499,6 @@ public class MapActivity extends Activity {
     }
 
 
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -328,13 +508,13 @@ public class MapActivity extends Activity {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         mapView.onPause();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         mapView.onResume();
     }

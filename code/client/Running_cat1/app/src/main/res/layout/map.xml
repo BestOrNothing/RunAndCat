@@ -1,22 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText1"
+        android:layout_gravity="center_horizontal"
+        android:text="跑步进行中"
+        android:gravity="center_vertical|center_horizontal"
+        android:allowUndo="false"
+        android:autoText="false"
+        android:background="@drawable/home_btn_bg_d"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:clickable="false"
+        android:editable="false"
+        android:textSize="28dp" />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="定位中，正在用传感器记录跑步"
+        android:gravity="center_vertical|center_horizontal"
+        android:allowUndo="false"
+        android:autoText="false"
+        android:background="@drawable/home_btn_bg_d"
+        android:textColor="#ffffff"
+        android:clickable="false"
+        android:editable="false"
+        android:textSize="15dp" />
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="0.80"
         android:clickable="true" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format="%s"
+        android:textSize="60dp"
+        android:textColor="@color/WHITE"
+        android:layout_gravity="center_horizontal"
+        />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/start_button"
+        android:id="@+id/finishButton"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/finish_button"
         />
-
 
 
 </LinearLayout>

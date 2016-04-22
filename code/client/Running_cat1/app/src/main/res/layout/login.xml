@@ -2,42 +2,83 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_background"
     android:stretchColumns="1">
 
     <TableRow>
-        <TextView
-            android:layout_height="wrap_content"
-            android:text="Account:"/>
-        <EditText
-            android:id="@+id/account"
-            android:layout_height="wrap_content"
-            android:hint="Input your account"/>
+        <Space
+            android:layout_span="5"
+            android:layout_height="200dp"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_column="5"></LinearLayout>
     </TableRow>
 
     <TableRow>
         <TextView
             android:layout_height="wrap_content"
-            android:text="Password" />
+            android:text="用户名："
+            android:textStyle="bold"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="18dp" />
+        <EditText
+            android:id="@+id/account"
+            android:layout_height="wrap_content"
+            android:hint="请输入账号（注册邮箱）" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_height="wrap_content"
+            android:text="密码："
+            android:textStyle="bold"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="18dp" />
         <EditText
             android:id="@+id/password"
             android:layout_height="wrap_content"
+            android:hint="请输入密码"
             android:inputType="textPassword" />
     </TableRow>
 
     <TableRow>
-        <Button
-            android:id="@+id/login_button"
-            android:layout_height="wrap_content"
-            android:layout_span="2"
-            android:text="Login" />
+        <Space
+            android:layout_span="5"
+            android:layout_height="20dp"
+            />
     </TableRow>
 
-    <TableRow>
-        <Button
-            android:id="@+id/register_button"
-            android:layout_height="wrap_content"
-            android:layout_span="2"
-            android:text="Register"/>
-    </TableRow>
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:text="登录"
+                android:gravity="center" />
+
+            <Button
+                android:id="@+id/register_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:text="注册"
+                android:gravity="center_vertical|center_horizontal" />
+
+        </LinearLayout>
+
 
 </TableLayout>

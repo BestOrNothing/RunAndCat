@@ -3,9 +3,33 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5"
+        android:id="@+id/imageView2"
+        android:background="@drawable/cat_photo" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_span="5"
+        android:layout_height="20dp"
+        />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="界面1"/>
+        android:text="剩余猫粮："
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="25dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/feedButton"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/feed"
+        />
 
 </LinearLayout>
