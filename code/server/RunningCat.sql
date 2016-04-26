@@ -27,3 +27,22 @@ create table Running(
     foreign key(date) references Day(date),
     foreign key(id) references User(id)
 );
+
+drop table if exists Friend;
+drop table if exists FriendReqest;
+
+CREATE TABLE Friend
+(
+    lowerID CHAR(50) NOT NULL,
+    upperID CHAR(50) NOT NULL,
+  
+    PRIMARY KEY (lowerID,upperID)
+);
+
+CREATE TABLE FriendReqest
+(
+    sendID CHAR(50) NOT NULL,
+    rcvID CHAR(50) NOT NULL,
+  
+    PRIMARY KEY (sendID,rcvID)
+);
