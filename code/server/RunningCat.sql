@@ -12,7 +12,8 @@ create table User(
     allDist     float NOT NULL DEFAULT 0,
     allTime     float NOT NULL DEFAULT 0,
     MaxDist     float NOT NULL DEFAULT 0,
-    MaxTime     float NOT NULL DEFAULT 0
+    MaxTime     float NOT NULL DEFAULT 0,
+    level       integer 
 );
 drop table if exists Day;
 create table Day(
