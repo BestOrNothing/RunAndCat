@@ -3,18 +3,16 @@ use RunningCat;
 drop table if exists Running;
 drop table if exists User;
 create table User(
-    age         integer,
-    height      integer,
-    weight      float, 
-    sex         char(1),
+    id          char(50) primary key,
+    password    varchar(50),
     nickname    varchar(20),
     location    varchar(20),
-    catExp      integer,
-    catFood     integer,
-    id          char(50) primary key,
-    createDate  date,
-    password    varchar(50),
-    allDist     float
+    catExp      integer NOT NULL DEFAULT 0,
+    catFood     integer NOT NULL DEFAULT 0,
+    allDist     float NOT NULL DEFAULT 0,
+    allTime     float NOT NULL DEFAULT 0,
+    MaxDist     float NOT NULL DEFAULT 0,
+    MaxTime     float NOT NULL DEFAULT 0
 );
 drop table if exists Day;
 create table Day(
@@ -29,7 +27,7 @@ create table Running(
 );
 
 drop table if exists Friend;
-drop table if exists FriendReqest;
+drop table if exists FriendRequest;
 
 CREATE TABLE Friend
 (
@@ -39,7 +37,7 @@ CREATE TABLE Friend
     PRIMARY KEY (lowerID,upperID)
 );
 
-CREATE TABLE FriendReqest
+CREATE TABLE FriendRequest
 (
     sendID CHAR(50) NOT NULL,
     rcvID CHAR(50) NOT NULL,
