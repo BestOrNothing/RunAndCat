@@ -10,18 +10,32 @@ function register($arr) {
     $para = $deJson['para'];
     $id = $para['id'];
     $password = $para['password'];
-    $rePassword = $para['rePassword'];
-    if($password != $rePassword){
-        return ;
-    }
 
     $db = Db::getInstance();
     $connect = $db->connect();
     $md5 = md5($password);
-    $sql = "insert into User(id, password) values('$id', '$md5')";
+    $sql = "insert into User(id, password, level, nickname) values('$id', '$md5', 1, 'Naive')";
     if(!mysql_query($sql, $connect)){
-        die('Error: ' . mysql_error());
+        $errorMsg = mysql_error();
+        $head = array(
+            "code" => "001",
+            "msg" => "注册失败"
+        );
+        $response = array(
+            "head" => $head
+        );
+        echo json_encode($response);
+    }
+    else {
+        $head = array(
+            "code" => "000",
+            "msg" => "注册成功"
+        );
+        $response = array(
+            "head" => $head
+        );
+        echo json_encode($response);
     }
 }
-
+register($_POST);
 ?>

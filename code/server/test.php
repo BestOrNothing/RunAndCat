@@ -1,9 +1,8 @@
 <?php
-include('register.php');
+include('add.php');
 $para = array(
-    'id' => 'zhensongyan@gmail.com',
-    'password' => '12345',
-    'rePassword' => '12345'
+    'sendId' => 'zhensongyan@gmail.com',
+    'rcvId' => '294173687@qq.com'
 );
 $request = array(
     'para' => $para
@@ -11,5 +10,5 @@ $request = array(
 $json = array(
     "request" => json_encode($request)
 );
-register($json);
+#add($json);
 ?>
