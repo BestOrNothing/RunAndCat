@@ -5,10 +5,13 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.Manifest;
@@ -45,37 +48,128 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Created by lucas on 2016/3/19.
  */
 
 public class LoginActivity extends Activity{
+    private String strPassword;   //密码字符串
+    private String strID;            //账号字符串
+
+    //发送和接收json数据
+    private void sendRequestWithHttpClient(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try{
+                    //发送json对象给服务器
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost(Url.basePath + "login.php");
+                    List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+                    JSONObject jsonObject = new JSONObject();
+                    JSONObject jsonObject2 = new JSONObject();
+                    jsonObject.put("id",strID );
+                    jsonObject.put("password",strPassword );
+                    jsonObject2.put("para", jsonObject);
+                    nameValuePair.add(new BasicNameValuePair("request", jsonObject2
+                            .toString()));
+                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+
+                    HttpResponse httpResponse = httpClient.execute(httpPost);
+                    if(httpResponse.getStatusLine().getStatusCode() == 200){
+                        //请求和响应都成功了
+                        //从服务器接收json对象
+                        HttpEntity entity = httpResponse.getEntity();
+                        String strResponse = EntityUtils.toString(entity, "utf-8");
+                        parseJSONWITHJSONObject(strResponse);
+                    }
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+        }).start();
+    }
+
+    //解析JSON格式数据
+    private void parseJSONWITHJSONObject(String jsonDate){
+        try{
+            JSONObject jsonObject1 = new JSONObject(jsonDate);
+
+            JSONObject jsonObject2 = jsonObject1.getJSONObject("head");
+            String str = jsonObject2.getString("code");
+            if(str.equals("003"))   //登录成功
+            {
+                Looper.prepare();
+
+                Toast toast = Toast.makeText(LoginActivity.this, "登录成功",
+                        Toast.LENGTH_LONG);
+                //可以控制toast显示的位置
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                JSONObject para = jsonObject1.getJSONObject("para");
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                CurUser curUser = CurUser.getInstance();
+                curUser.allDist = (float)para.getDouble("allDist");
+                curUser.allTime = (float)para.getDouble("allTime");
+                curUser.catExp = para.getInt("catExp");
+                curUser.catFood = para.getInt("catFood");
+                curUser.id = para.getString("id");
+                curUser.level = para.getInt("level");
+                curUser.location = para.getString("location");
+                curUser.maxDist = (float) para.getDouble("maxDist");
+                curUser.maxTime = (float) para.getDouble("maxTime");
+                startActivity(intent);
+                Looper.loop();
+            } else {
+                Looper.prepare();
+
+                Toast toast = Toast.makeText(LoginActivity.this, "账号不存在或密码错误！",
+                        Toast.LENGTH_LONG);
+                //可以控制toast显示的位置
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
+                Looper.loop();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        final EditText IdText = (EditText) findViewById(R.id.account);
+        final EditText passwordText = (EditText) findViewById(R.id.password);
+
         Button button = (Button) findViewById(R.id.login_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                strPassword = passwordText.getText().toString();
+                strID = IdText.getText().toString();
 
-
-                int flag = 1;  //判断密码是否争取
-
-
-                //此处需要连接数据库进行判断
-
+                sendRequestWithHttpClient();
 
                 //如果密码正确进入到开始界面
-                if (flag == 1) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(LoginActivity.this, "账号不存在或账号密码不匹配！",
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
 

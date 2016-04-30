@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:textSize="23dp"
+        android:gravity="center"
+        android:editable="false"
+        android:background="@drawable/home_btn_bg_d"
+        android:text="排行榜"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rank_lv"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>

@@ -21,6 +21,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".PersonalInformationAdapt">
+        </activity>
+
         <activity android:name=".RegisterActivity">
         </activity>
 
@@ -50,6 +53,17 @@
         <activity android:name=".FifthActivity">
         </activity>
 
+        <activity android:name=".InfoWebActivity"></activity>
+
+        <activity android:name=".FriendListActivity"></activity>
+
+        <activity android:name=".NewFriendActivity"></activity>
+
+        <activity android:name=".ScanActivity">
+        </activity>
+
+        <activity android:name=".RankActivity"></activity>
+
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -63,57 +77,58 @@
     </application>
 
 
+
     //添加百度地图权限
 
-    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" >
-</permission>
-
-    <!-- 这个权限用于进行网络定位-->
+    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    - <!--  这个权限用于进行网络定位
+  -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!-- 这个权限用于访问GPS定位-->
+    - <!--  这个权限用于访问GPS定位
+  -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    - <!--  用于访问wifi网络信息，wifi信息会用于进行网络定位
+  -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    - <!--  获取运营商信息，用于支持提供运营商信息相关的接口
+  -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    - <!--  这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位
+  -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
-    <!--允许程序连接到已配对的蓝牙设备-->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-
-    <!--允许程序发现和配对蓝牙设备-->
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-
-    <!-- 用于读取手机当前的状态-->
+    - <!-- 允许程序连接到已配对的蓝牙设备
+  -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    - <!-- 允许程序发现和配对蓝牙设备
+  -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    - <!--  用于读取手机当前的状态
+  -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
+    - <!--  写入扩展存储，向扩展卡写入数据，用于写入离线定位数据
+  -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!-- 访问网络，网络定位需要上网-->
+    - <!--  访问网络，网络定位需要上网
+  -->
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- SD卡读取权限，用户写入离线定位数据-->
+    - <!--  SD卡读取权限，用户写入离线定位数据
+  -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
-    <!--允许应用读取低级别的系统日志文件 -->
+    - <!-- 允许应用读取低级别的系统日志文件
+  -->
     <uses-permission android:name="android.permission.READ_LOGS" />
-
-    <!--允许访问振动设备-->
+    - <!-- 允许访问振动设备
+  -->
     <uses-permission android:name="android.permission.VIBRATE" />
-
-    <!--屏幕保持唤醒 不锁屏-->
+    - <!-- 屏幕保持唤醒 不锁屏
+  -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <!--允许应用程序更改主屏幕中的设置和快捷方式-->
+    - <!-- 允许应用程序更改主屏幕中的设置和快捷方式
+  -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+
 
 
     <supports-screens

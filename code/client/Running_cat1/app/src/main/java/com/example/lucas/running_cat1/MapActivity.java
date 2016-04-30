@@ -16,6 +16,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.OnEntityListener;
 import com.baidu.trace.OnStartTraceListener;
@@ -43,6 +44,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageButton;
 
@@ -50,9 +52,13 @@ public class MapActivity extends Activity {
 
     private Chronometer timer;
 
+    private double distance = 0;
+    private double totalTime = 0;
+    private double aveSpeed = 0;
+
     int miss = 0;
     int gatherInterval = 1;  //位置采集周期 (s)
-    int packInterval = 10;  //打包周期 (s)
+    int packInterval = 5;  //打包周期 (s)
     String entityName = null;  // entity标识
     long serviceId = 114202;// 鹰眼服务ID
     int traceType = 2;  //轨迹服务类型  traceType - ( 0 : 不建立长连接, 1 : 建立长连接但不采集数据, 2 : 建立长连接并采集数据 )
@@ -108,6 +114,9 @@ public class MapActivity extends Activity {
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     //改为抬起时的图片
                     v.setBackgroundResource(R.drawable.start_button);
+
+                    distance = 0;
+
                     jumpToLayout2();
                 }
 
@@ -128,6 +137,9 @@ public class MapActivity extends Activity {
 
         setContentView(R.layout.map);
 
+        final TextView distanceView = (TextView)findViewById(R.id.DistanceTextView);
+        final TextView speedView = (TextView)findViewById(R.id.SpeedTextView);
+
         //获得计时器对象
         timer = (Chronometer)this.findViewById(R.id.chronometer);
         timer.setBase(SystemClock.elapsedRealtime());  //计时器清零
@@ -138,6 +150,13 @@ public class MapActivity extends Activity {
             @Override
             public void onChronometerTick(Chronometer ch) {
                 miss++;
+
+                //显示速度和时间
+                totalTime = miss * 1.0;
+                aveSpeed = distance / totalTime;
+                distanceView.setText(DoubleToString(distance));
+                speedView.setText(DoubleToString(aveSpeed));
+
                 ch.setText(FormatMiss(miss));
             }
         });
@@ -165,12 +184,22 @@ public class MapActivity extends Activity {
 
                     //停止计时
                     timer.stop();
+
+
+
                     jumpToLayout1();
                 }
 
                 return false;
             }
         });
+    }
+
+    public String DoubleToString(double e){
+        int a = (int)(e - 0.5);
+        int b = (int)((e - a)*100.0);
+        String S = a + "." + b;
+        return S;
     }
 
     // 将秒转化成小时分钟秒
@@ -207,6 +236,9 @@ public class MapActivity extends Activity {
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     //改为抬起时的图片
                     v.setBackgroundResource(R.drawable.start_button);
+
+                    distance = 0;
+
                     jumpToLayout2();
                 }
 
@@ -405,6 +437,14 @@ public class MapActivity extends Activity {
 
             if (latLng != null) {
                 pointList.add(latLng);
+
+                int length = pointList.size();
+                double dis;
+                if(length>=3){
+                    dis = DistanceUtil.getDistance(pointList.get(length-2), pointList.get(length - 1));
+                    distance += dis;
+                }
+
                 drawRealtimePoint(latLng);
             } else {
                 Toast.makeText(getApplicationContext(), "当前无轨迹点", Toast.LENGTH_LONG).show();
@@ -428,8 +468,8 @@ public class MapActivity extends Activity {
         overlay = new MarkerOptions().position(point)
                 .icon(realtimeBitmap).zIndex(9).draggable(true);
 
-        if (pointList.size() >= 2 && pointList.size() <= 1000) {
-            polyline = new PolylineOptions().width(20).color(Color.RED).points(pointList);
+        if (pointList.size() >= 2) {
+            polyline = new PolylineOptions().width(10).color(Color.RED).points(pointList);
         }
 
         addMarker();

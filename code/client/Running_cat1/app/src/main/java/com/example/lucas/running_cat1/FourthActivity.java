@@ -1,50 +1,16 @@
 package com.example.lucas.running_cat1;
 
 import android.app.Activity;
-import android.app.TabActivity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Window;
-import android.widget.RadioGroup;
-import android.widget.TabHost;
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
-import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.model.LatLng;
-
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,4 +18,39 @@ import java.util.List;
  */
 public class FourthActivity extends Activity {
 
+    private List<Info> infoList = new ArrayList<Info>();
+
+    protected void onCreate(Bundle saveInstaceState) {
+        super.onCreate(saveInstaceState);
+        setContentView(R.layout.four);
+        initInfo();
+        InfoAdapter adapter = new InfoAdapter(FourthActivity.this, R.layout.info_item, infoList);
+        ListView listView = (ListView) findViewById(R.id.info_list_view);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Info info = infoList.get(position);
+                Intent intent = new Intent(FourthActivity.this, InfoWebActivity.class);
+                String basePath = "http://159.203.225.151/RunningCat/";
+                intent.putExtra("url", basePath + "document/" + (position + 1) + ".html");
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initInfo() {
+        Info _1 = new Info("运动常识：跑步知识大全", R.drawable.info_image_1);
+        infoList.add(_1);
+        Info _2 = new Info("你真的会跑步吗？五个小知识教你立刻学会跑步", R.drawable.info_image_2);
+        infoList.add(_2);
+        Info _3 = new Info("跑步的种类与区分", R.drawable.info_image_3);
+        infoList.add(_3);
+        Info _4 = new Info("跑步的训练方法", R.drawable.info_image_4);
+        infoList.add(_4);
+        Info _5 = new Info("跑步成为中国中产阶级最新的信仰", R.drawable.info_image_5);
+        infoList.add(_5);
+        Info _6 = new Info("跑步热折射中国民众健康观念变迁", R.drawable.info_image_6);
+        infoList.add(_6);
+    }
 }

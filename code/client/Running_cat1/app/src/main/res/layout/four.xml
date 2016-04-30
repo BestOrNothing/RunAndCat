@@ -3,9 +3,21 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="界面4"/>
+        android:id="@+id/fourTitle"
+        android:layout_gravity="center_horizontal"
+        android:text="资料"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textSize="23dp"
+        android:background="@drawable/home_btn_bg_d"
+        android:editable="false"/>
+
+    <ListView
+        android:id="@+id/info_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
 
 </LinearLayout>

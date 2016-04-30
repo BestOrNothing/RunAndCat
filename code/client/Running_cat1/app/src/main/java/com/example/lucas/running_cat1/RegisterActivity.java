@@ -130,7 +130,7 @@ public class RegisterActivity extends Activity {
                 try{
                     //发送json对象给服务器
                     HttpClient httpClient = new DefaultHttpClient();
-                    HttpPost httpPost = new HttpPost("http://159.203.225.151/RunningCat/register.php");
+                    HttpPost httpPost = new HttpPost(Url.basePath + "register.php");
                     List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
                     JSONObject jsonObject = new JSONObject();
                     JSONObject jsonObject2 = new JSONObject();

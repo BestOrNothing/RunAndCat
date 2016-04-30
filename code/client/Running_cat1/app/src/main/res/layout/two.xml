@@ -1,10 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <Button
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:textSize="23dp"
+        android:gravity="center"
+        android:editable="false"
+        android:background="@drawable/home_btn_bg_d"
+        android:text="圈子"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/friend_list_item"
+        android:background="#444444"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="界面2"/>
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="43dp"
+            android:layout_height="50dp"
+            android:src="@drawable/two_friend_list" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:text="好友列表"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/friend_moment_item"
+        android:layout_marginTop="1dp"
+        android:background="#444444"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/two_friend_moment"
+            android:layout_width="43dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:background="#444444"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:text="添加好友"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rank_item"
+        android:background="#444444"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/two_rank"
+            android:layout_width="43dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:background="#444444"
+            android:text="排行榜"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/scan_item"
+        android:background="#444444"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/two_scan"
+            android:layout_width="43dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:background="#444444"
+            android:text="扫一扫"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

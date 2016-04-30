@@ -39,4 +39,11 @@ dependencies {
     compile files('libs/commons-codec-1.9.jar')
     compile files('libs/apache/fluent-hc-4.5.2.jar')
     compile files('libs/commons-logging-1.2.jar')
+    compile files('libs/baidumapapi_radar_v3_6_0.jar')
+    compile files('libs/baidumapapi_map_v3_6_1.jar')
+    compile files('libs/slidingmenu_library-11518fa848cd06c8cfb4f6591ea0a45c.jar')
+    compile files('libs/IndoorscapeAlbumPlugin.jar')
+    compile files('libs/httpmime-4.1.2.jar')
+    compile files('libs/BaiduTraceSDK_v2_1_7.jar')
+    compile files('libs/baidumapapi_base_v3_6_0.jar')
 }

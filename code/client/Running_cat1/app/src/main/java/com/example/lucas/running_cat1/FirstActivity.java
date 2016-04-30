@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
@@ -35,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -77,7 +79,12 @@ public class FirstActivity extends Activity{
               return false;
           }
       });
-
+      TextView editText = (TextView) findViewById(R.id.cat_food);
+      editText.setText(editText.getText().toString() + CurUser.getInstance().catFood);
+      TextView catLevel = (TextView) findViewById(R.id.cat_level);
+      catLevel.setText(catLevel.getText().toString() + CurUser.getInstance().level);
+      TextView catExp = (TextView) findViewById(R.id.cat_exp);
+      catExp.setText(catExp.getText().toString() + CurUser.getInstance().catExp + "/" + Cat.getInstance().levelExp[CurUser.getInstance().level]);
   }
 
 

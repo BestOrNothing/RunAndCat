@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroud2">
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText1"
@@ -12,7 +13,7 @@
         android:gravity="center_vertical|center_horizontal"
         android:allowUndo="false"
         android:autoText="false"
-        android:background="@drawable/home_btn_bg_d"
+
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:clickable="false"
@@ -27,7 +28,7 @@
         android:layout_weight="1.46"
         android:clickable="true" />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/editText"
@@ -37,7 +38,7 @@
         android:gravity="center_vertical|center_horizontal"
         android:allowUndo="false"
         android:autoText="false"
-        android:background="@drawable/home_btn_bg_d"
+
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:clickable="false"
