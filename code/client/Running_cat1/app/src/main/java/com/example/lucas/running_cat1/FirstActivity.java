@@ -72,8 +72,6 @@ public class FirstActivity extends Activity{
         super.onCreate(saveInstanceState);
         setContentView(R.layout.one);
 
-        CurUser.getInstance().sync();
-
         final TextView editText = (TextView) findViewById(R.id.cat_food);
         editText.setText(" " + CurUser.getInstance().catFood);
         final TextView catLevel = (TextView) findViewById(R.id.cat_level);
@@ -123,9 +121,9 @@ public class FirstActivity extends Activity{
                     }
                 }).start();
                 while (mutex <= 0) ;
-                catExp.setText(String.valueOf(user.catExp));
-                editText.setText(String.valueOf(user.catFood));
-                catLevel.setText(String.valueOf(user.level));
+                catExp.setText(String.valueOf(user.catExp)+ " / " + Cat.getInstance().levelExp[CurUser.getInstance().level]);
+                editText.setText(" " + String.valueOf(user.catFood));
+                catLevel.setText(" " + String.valueOf(user.level) );
             }
             return false;
           }

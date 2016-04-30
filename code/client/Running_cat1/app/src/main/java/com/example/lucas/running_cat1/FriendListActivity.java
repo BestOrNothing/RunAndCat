@@ -3,6 +3,7 @@ package com.example.lucas.running_cat1;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -38,6 +39,16 @@ public class FriendListActivity extends Activity {
     private final int showRefuse = 1;
 
     private int mutex = 1;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Intent intent = new Intent(FriendListActivity.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     protected void onCreate(Bundle savedInstanceSate) {
         super.onCreate(savedInstanceSate);

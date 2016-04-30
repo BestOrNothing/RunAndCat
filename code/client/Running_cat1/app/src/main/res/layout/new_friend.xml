@@ -20,7 +20,7 @@
         <EditText
             android:layout_weight="1"
             android:id="@+id/search_new_friend_edit"
-            android:hint="在这里输入ID搜索新朋友"
+            android:hint="在这里输入用户名搜索新朋友"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

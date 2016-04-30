@@ -28,7 +28,7 @@
         <EditText
             android:id="@+id/account"
             android:layout_height="wrap_content"
-            android:hint="请输入账号（注册邮箱）" />
+            android:hint="请输入账号" />
     </TableRow>
 
     <TableRow>

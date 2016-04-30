@@ -122,6 +122,7 @@ public class MapActivity extends Activity {
                     //更改为按下时的背景图片
                     v.setBackgroundResource(R.drawable.start2_button);
 
+
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     //改为抬起时的图片
                     v.setBackgroundResource(R.drawable.start_button);
@@ -238,9 +239,7 @@ public class MapActivity extends Activity {
     }
 
     public String DoubleToString(double e){
-        int a = (int)(e - 0.5);
-        int b = (int)((e - a)*100.0);
-        String S = a + "." + b;
+        String S = String.format("%.2f",e);
         return S;
     }
 
