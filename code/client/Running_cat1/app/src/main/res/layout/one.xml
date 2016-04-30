@@ -3,45 +3,96 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2.5"
-        android:id="@+id/imageView2"
-        android:background="@drawable/cat_photo" />
+        android:background="@drawable/cat_photo"
+        android:orientation="vertical">
+        
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 等级："
+                android:textSize="30dp"
+                android:textColor="@color/colorCat" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 1"
+                android:textSize="30dp"
+                android:textColor="@color/colorCat"
+                android:id="@+id/cat_level"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 经验："
+                android:textSize="30dp"
+                android:textColor="@color/colorCat"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 0 / 10"
+                android:textSize="30dp"
+                android:textColor="@color/colorCat"
+                android:id="@+id/cat_exp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_span="5"
-        android:layout_height="20dp"
-        />
+        android:layout_height="5dp" />
 
-    <TextView
-        android:id="@+id/cat_food"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="剩余猫粮："
-        android:gravity="center_vertical|center_horizontal"
-        android:textSize="20dp" />
-    <TextView
-        android:textSize="20dp"
-        android:gravity="center"
-        android:text="等级: "
-        android:id="@+id/cat_level"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:textSize="20dp"
-        android:gravity="center"
-        android:id="@+id/cat_exp"
-        android:text="经验值: "
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:text="剩余猫粮："
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:gravity="right|center_vertical"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:text=" 0"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/WHITE"
+            android:gravity="left|center_vertical"
+            android:id="@+id/cat_food"/>
+
+    </LinearLayout>
 
     <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/feedButton"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/feed"

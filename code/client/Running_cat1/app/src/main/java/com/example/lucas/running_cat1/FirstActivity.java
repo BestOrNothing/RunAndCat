@@ -49,43 +49,87 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 
 /**
  * Created by lucas on 2016/3/19.
  */
 public class FirstActivity extends Activity{
 
-  @Override
-   protected void onCreate(Bundle saveInstanceState) {
-      super.onCreate(saveInstanceState);
-      setContentView(R.layout.one);
+    private int mutex = 1;
 
-      //添加图片按钮点击事件
-      ImageButton feedButton = (ImageButton) findViewById(R.id.feedButton);
-      feedButton.setOnTouchListener(new View.OnTouchListener() {
+    @Override
+    protected void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+        setContentView(R.layout.one);
+
+        CurUser.getInstance().sync();
+
+        final TextView editText = (TextView) findViewById(R.id.cat_food);
+        editText.setText(" " + CurUser.getInstance().catFood);
+        final TextView catLevel = (TextView) findViewById(R.id.cat_level);
+        catLevel.setText(" "+CurUser.getInstance().level);
+        final TextView catExp = (TextView) findViewById(R.id.cat_exp);
+        catExp.setText(CurUser.getInstance().catExp + " / " + Cat.getInstance().levelExp[CurUser.getInstance().level]);
+
+
+        //添加图片按钮点击事件
+        ImageButton feedButton = (ImageButton) findViewById(R.id.feedButton);
+        feedButton.setOnTouchListener(new View.OnTouchListener() {
           @Override
           public boolean onTouch(View v, MotionEvent event) {
 
-              if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                  //更改为按下时的背景图片
-                  v.setBackgroundResource(R.drawable.feed1);
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+              //更改为按下时的背景图片
+              v.setBackgroundResource(R.drawable.feed1);
 
-              } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                  //改为抬起时的图片
-                  v.setBackgroundResource(R.drawable.feed);
-
-              }
-              return false;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+              //改为抬起时的图片
+                v.setBackgroundResource(R.drawable.feed);
+                final CurUser user = CurUser.getInstance();
+                user.catExp += user.catFood;
+                user.catFood = 0;
+                Cat.getInstance().levelUp();
+                mutex--;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            JSONObject requset = new JSONObject();
+                            requset.put("catExp", user.catExp);
+                            requset.put("catFood", user.catFood);
+                            requset.put("id", user.id);
+                            params.add(new BasicNameValuePair("request", requset.toString()));
+                            HttpResponse httpResponse = MyHttp.sendPost(Url.basePath + "food.php", params);
+                            if(httpResponse.getStatusLine().getStatusCode() == 200) {
+                                HttpEntity entity = httpResponse.getEntity();
+                                String s = EntityUtils.toString(entity, "utf-8");
+                                System.out.print(s);
+                            }
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mutex++;
+                    }
+                }).start();
+                while (mutex <= 0) ;
+                catExp.setText(String.valueOf(user.catExp));
+                editText.setText(String.valueOf(user.catFood));
+                catLevel.setText(String.valueOf(user.level));
+            }
+            return false;
           }
-      });
-      TextView editText = (TextView) findViewById(R.id.cat_food);
-      editText.setText(editText.getText().toString() + CurUser.getInstance().catFood);
-      TextView catLevel = (TextView) findViewById(R.id.cat_level);
-      catLevel.setText(catLevel.getText().toString() + CurUser.getInstance().level);
-      TextView catExp = (TextView) findViewById(R.id.cat_exp);
-      catExp.setText(catExp.getText().toString() + CurUser.getInstance().catExp + "/" + Cat.getInstance().levelExp[CurUser.getInstance().level]);
-  }
+        });
 
-
+    }
 }

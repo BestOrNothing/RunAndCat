@@ -48,6 +48,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageButton;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
 public class MapActivity extends Activity {
 
     private Chronometer timer;
@@ -185,6 +196,37 @@ public class MapActivity extends Activity {
                     //停止计时
                     timer.stop();
 
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Looper.prepare();
+                            //发送json对象给服务器
+                            HttpClient httpClient = new DefaultHttpClient();
+                            HttpPost httpPost = new HttpPost(Url.basePath + "run.php");
+                            List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+                            JSONObject jsonObject = new JSONObject();
+                            JSONObject jsonObject2 = new JSONObject();
+                            try {
+                                jsonObject.put("dist",distance/1000.0);
+                                jsonObject.put("time",totalTime/3600.0);
+                                jsonObject.put("id", CurUser.getInstance().id);
+                                jsonObject2.put("para", jsonObject);
+
+                                nameValuePair.add(new BasicNameValuePair("request", jsonObject2
+                                        .toString()));
+                                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+
+                                HttpResponse httpResponse = httpClient.execute(httpPost);
+                                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                                    //请求和响应都成功了
+                                }
+                                Looper.loop();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
 
 
                     jumpToLayout1();

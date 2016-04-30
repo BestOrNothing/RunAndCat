@@ -60,6 +60,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,16 +70,22 @@ import java.util.List;
  */
 public class FifthActivity extends Activity {
     private String nickname; //昵称
-    private String allDist;   //总距离
-    private String allTime;    //总时间
-    private String longestDist;            //最长距离
-    private String longestTime;     //最长时间
+    private float allDist;   //总距离
+    private float allTime;    //总时间
+    private int catLevel;
+    private float longestDist;            //最长距离
+    private float longestTime;     //最长时间
     private String personflag;  //标识符
-    private String StrID;   //当前跑步时间
+    private String StrID;
     private TextView allDisttextview;
     private TextView allTimetextview;
     private TextView longestDisttextview;
     private TextView longestTimetextview;
+    private TextView nicknameView;
+    private TextView catLevelView;
+
+    private int mutex = 1;
+
     //发送和接收json数据
     private void sendRequestWithHttpClient(){
         new Thread(new Runnable() {
@@ -87,21 +94,24 @@ public class FifthActivity extends Activity {
                 try{
                     //发送json对象给服务器
                     HttpClient httpClient = new DefaultHttpClient();
-                    HttpPost httpPost = new HttpPost(Url.basePath + "person.php");
+                    HttpPost httpPost = new HttpPost(Url.basePath +"person.php");
                     List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
                     JSONObject jsonObject = new JSONObject();
                     JSONObject jsonObject2 = new JSONObject();
                     personflag="003";
-                    StrID = "000";
-                    jsonObject.put("Rid",personflag);
-                    jsonObject.put("id",StrID);
+                    StrID = CurUser.getInstance().id;
+                    if(personflag.equals("003")) {
+                        jsonObject.put("Rid", personflag);
+                        jsonObject.put("id", StrID);
+                        jsonObject2.put("para", jsonObject);
+                    }
 
-                    jsonObject2.put("para", jsonObject);
                     nameValuePair.add(new BasicNameValuePair("request", jsonObject2
                             .toString()));
                     httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
 
                     HttpResponse httpResponse = httpClient.execute(httpPost);
+                    int a = httpResponse.getStatusLine().getStatusCode();
                     if(httpResponse.getStatusLine().getStatusCode() == 200){
                         //请求和响应都成功了
                         //从服务器接收json对象
@@ -113,6 +123,7 @@ public class FifthActivity extends Activity {
                 catch(Exception e){
                     e.printStackTrace();
                 }
+                mutex++;
             }
         }).start();
     }
@@ -125,10 +136,11 @@ public class FifthActivity extends Activity {
             String str = jsonObject2.getString("code");
             if(str.equals("007")){
                 nickname = jsonObject2.getString("nickname");
-                allDist = jsonObject2.getString("allDist");
-                allTime = jsonObject2.getString("allTime");
-                longestDist = jsonObject2.getString("MaxTime");
-                longestTime = jsonObject2.getString("MaxDist");
+                allDist =(float) jsonObject2.getDouble("allDist");
+                allTime =(float) jsonObject2.getDouble("allTime");
+                longestDist =(float) jsonObject2.getDouble("MaxDist");
+                longestTime =(float) jsonObject2.getDouble("MaxTime");
+                catLevel = jsonObject2.getInt("level");
             }
 
         }
@@ -141,16 +153,27 @@ public class FifthActivity extends Activity {
 
         super.onCreate(saveInstanceState);
         setContentView(R.layout.five);
+
+        mutex--;
+
         sendRequestWithHttpClient();
+
+        while(mutex<=0) ;
+
         allDisttextview = (TextView) findViewById(R.id.UserDistance);
         allTimetextview = (TextView) findViewById(R.id.UserTotalTime);
-        longestDisttextview = (TextView) findViewById(R.id.textView33);
-        longestTimetextview = (TextView) findViewById(R.id.textView44);
+        longestDisttextview = (TextView) findViewById(R.id.longestDistanceTextView);
+        longestTimetextview = (TextView) findViewById(R.id.longestTimeTextView);
+        nicknameView = (TextView)findViewById(R.id.Nickname);
+        catLevelView = (TextView)findViewById(R.id.catLevel);
 
-        allDisttextview.setText(allDist);
-        allTimetextview.setText(allTime);
-        longestTimetextview.setText(longestTime);
-        longestDisttextview.setText(longestDist);
+        allDisttextview.setText(DoubleToString(allDist)+"公里");
+        allTimetextview.setText(DoubleToString(allTime)+"小时");
+        longestTimetextview.setText(DoubleToString(longestTime)+"小时");
+        longestDisttextview.setText(DoubleToString(longestDist)+"公里");
+        catLevelView.setText(String.valueOf(catLevel)+"级");
+        nicknameView.setText(nickname);
+
 
         //头像点击更改昵称
         ImageButton imageButton = (ImageButton) findViewById(R.id.picture);
@@ -170,6 +193,11 @@ public class FifthActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    public String DoubleToString(double e){
+        String s = String.format("%.2f",e);
+        return s;
     }
 
 }

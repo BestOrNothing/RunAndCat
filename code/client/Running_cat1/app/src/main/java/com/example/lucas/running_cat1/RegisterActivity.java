@@ -198,7 +198,19 @@ public class RegisterActivity extends Activity {
 
                 sendRequestWithHttpClient();
 
-                if(flag == 1){
+                if(strID.length() > 20 || strID.length() < 6){
+                    Toast toast = Toast.makeText(RegisterActivity.this, "用户名不合法",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+                else if(strPassword1.length() > 20 || strPassword1.length() < 6) {
+                    Toast toast = Toast.makeText(RegisterActivity.this, "密码不合法",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+                else if(flag == 1){
                     Toast toast = Toast.makeText(RegisterActivity.this, "您已注册成功，请登录",
                             Toast.LENGTH_LONG);
                     //可以控制toast显示的位置

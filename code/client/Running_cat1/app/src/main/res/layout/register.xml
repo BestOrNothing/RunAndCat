@@ -36,7 +36,7 @@
         <EditText
             android:id="@+id/account1"
             android:layout_height="wrap_content"
-            android:hint="请输入账号（邮箱）" />
+            android:hint="请输入账号（6-20个字符）" />
     </TableRow>
 
     <TableRow>
@@ -49,7 +49,7 @@
         <EditText
             android:id="@+id/password1"
             android:layout_height="wrap_content"
-            android:hint="请输入密码"
+            android:hint="请输入密码（6-20个字符）"
             android:inputType="textPassword" />
     </TableRow>
 

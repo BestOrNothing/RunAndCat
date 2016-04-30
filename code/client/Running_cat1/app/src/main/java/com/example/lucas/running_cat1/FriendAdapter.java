@@ -60,6 +60,7 @@ public class FriendAdapter extends ArrayAdapter<Friend> {
         TextView level = (TextView) view.findViewById(R.id.friend_level);
         nickname.setText(friend.getNickname());
         location.setText(friend.getLocation());
+        location.setVisibility(View.GONE);
         level.setText(friend.getLevel() + "级");
         delete = (Button) view.findViewById(R.id.delete_friend);
         add = (Button) view.findViewById(R.id.add_friend);
