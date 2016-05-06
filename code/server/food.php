@@ -8,7 +8,8 @@ function food($arr) {
     $catExp = $request['catExp'];
     $catFood = $request['catFood'];
     $id = $request['id'];
-    $sql = "update User set catExp=$catExp, catFood=$catFood where id='$id'";
+    $level = $request['level'];
+    $sql = "update User set level=$level, catExp=$catExp, catFood=$catFood where id='$id'";
     mysql_query($sql, $connect);
 }
 food($_POST);

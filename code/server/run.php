@@ -13,7 +13,8 @@ function run($arr) {
     $result = mysql_query($sql, $connect);
     $sql = "update User set MaxTime=$time where id='$id' and MaxTime<$time";
     mysql_query($sql, $connect);
-    $sql = "update User set MaxDist='$dist' where id='$id' and MaxDist<$dist";
+    $sql = "update User set MaxDist=$dist where id='$id' and MaxDist<$dist";
+    mysql_query($sql, $connect);
 }
 run($_POST);
 ?>

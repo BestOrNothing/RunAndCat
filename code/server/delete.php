@@ -8,7 +8,7 @@ function _delete($arr) {
     $connect = $db->connect();
     $lowerId = $para['lowerId'];
     $upperId = $para['upperId'];
-    $sql = "delete from Friend where lowerID='$lowerId' upperID='$upperId'";
+    $sql = "delete from Friend where lowerID='$lowerId' and upperID='$upperId'";
     mysql_query($sql, $connect);
 }
 _delete($_POST);
