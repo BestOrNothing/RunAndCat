@@ -162,14 +162,18 @@ public class FifthActivity extends Activity {
 
         allDisttextview = (TextView) findViewById(R.id.UserDistance);
         allTimetextview = (TextView) findViewById(R.id.UserTotalTime);
-        longestDisttextview = (TextView) findViewById(R.id.longestDistanceTextView);
         longestTimetextview = (TextView) findViewById(R.id.longestTimeTextView);
-        nicknameView = (TextView)findViewById(R.id.Nickname);
-        catLevelView = (TextView)findViewById(R.id.catLevel);
+
 
         allDisttextview.setText(DoubleToString(allDist)+"公里");
         allTimetextview.setText(DoubleToString(allTime)+"小时");
         longestTimetextview.setText(DoubleToString(longestTime)+"小时");
+
+        nicknameView = (TextView)findViewById(R.id.Nickname);
+        catLevelView = (TextView)findViewById(R.id.catLevel);
+        longestDisttextview = (TextView) findViewById(R.id.longestDistanceTextView);
+
+
         longestDisttextview.setText(DoubleToString(longestDist)+"公里");
         catLevelView.setText(String.valueOf(catLevel)+"级");
         nicknameView.setText(nickname);
@@ -193,6 +197,7 @@ public class FifthActivity extends Activity {
                 startActivity(intent);
             }
         });
+
     }
 
     public String DoubleToString(double e){

@@ -106,6 +106,7 @@ public class FirstActivity extends Activity{
                             JSONObject requset = new JSONObject();
                             requset.put("catExp", user.catExp);
                             requset.put("catFood", user.catFood);
+                            requset.put("level", user.level);
                             requset.put("id", user.id);
                             params.add(new BasicNameValuePair("request", requset.toString()));
                             HttpResponse httpResponse = MyHttp.sendPost(Url.basePath + "food.php", params);

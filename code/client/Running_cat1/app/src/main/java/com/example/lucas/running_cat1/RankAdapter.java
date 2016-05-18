@@ -96,9 +96,9 @@ public class RankAdapter extends BaseAdapter {
 
             holder.icon.setImageResource(resid);
 
-            holder.id.setText("ID:"+list.get(position).getId());
-            holder.nickname.setText("姓名:"+list.get(position).getNickname());
-            holder.level.setText(String.valueOf(list.get(position).getLevel()));
+            holder.id.setText("用户名:"+list.get(position).getId());
+            holder.nickname.setText("昵称:"+list.get(position).getNickname());
+            holder.level.setText(String.valueOf(list.get(position).getLevel()) + "级");
             holder.no.setText("No."+(position+1));
 
             convertView.setTag(holder);
@@ -117,9 +117,9 @@ public class RankAdapter extends BaseAdapter {
 
             holder.icon.setImageResource(resid);
 
-            holder.id.setText("ID:"+list.get(position).getId());
-            holder.nickname.setText("姓名:"+list.get(position).getNickname());
-            holder.level.setText(String.valueOf(list.get(position).getLevel()));
+            holder.id.setText("用户名:"+list.get(position).getId());
+            holder.nickname.setText("昵称:"+list.get(position).getNickname());
+            holder.level.setText(String.valueOf(list.get(position).getLevel()) + "级");
             holder.no.setText("No."+(position+1));
         }
 

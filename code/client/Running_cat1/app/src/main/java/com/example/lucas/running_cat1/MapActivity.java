@@ -13,6 +13,7 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -108,7 +109,6 @@ public class MapActivity extends Activity {
 
         initOnStartTraceListener();
 
-
         client.startTrace(trace, startTraceListener);  // 开启轨迹服务
 
 
@@ -122,12 +122,13 @@ public class MapActivity extends Activity {
                     //更改为按下时的背景图片
                     v.setBackgroundResource(R.drawable.start2_button);
 
-
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     //改为抬起时的图片
                     v.setBackgroundResource(R.drawable.start_button);
 
                     distance = 0;
+
+                    pointList.clear();
 
                     jumpToLayout2();
                 }
@@ -145,7 +146,7 @@ public class MapActivity extends Activity {
 
 
     public void jumpToLayout2() {
-        SDKInitializer.initialize(getApplicationContext());
+        //SDKInitializer.initialize(getApplicationContext());
 
         setContentView(R.layout.map);
 
@@ -197,7 +198,6 @@ public class MapActivity extends Activity {
                     //停止计时
                     timer.stop();
 
-
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -229,6 +229,8 @@ public class MapActivity extends Activity {
                         }
                     }).start();
 
+
+                    CurUser.getInstance().catFood += distance/100.0;
 
                     jumpToLayout1();
                 }
@@ -280,6 +282,8 @@ public class MapActivity extends Activity {
 
                     distance = 0;
 
+                    pointList.clear();
+
                     jumpToLayout2();
                 }
 
@@ -294,7 +298,6 @@ public class MapActivity extends Activity {
      * 初始化各个参数
      */
     private void init() {
-
         mapView = (MapView) findViewById(R.id.mapView);
         baiduMap = mapView.getMap();
         mapView.showZoomControls(false);
@@ -481,7 +484,7 @@ public class MapActivity extends Activity {
 
                 int length = pointList.size();
                 double dis;
-                if(length>=3){
+                if(length>=2){
                     dis = DistanceUtil.getDistance(pointList.get(length-2), pointList.get(length - 1));
                     distance += dis;
                 }
@@ -532,6 +535,12 @@ public class MapActivity extends Activity {
             baiduMap.addOverlay(overlay);
         }
 
+        //垃圾回收
+        polyline = null;
+        overlay = null;
+        msUpdate = null;
+        realtimeBitmap = null;
+        System.gc();
 
     }
 

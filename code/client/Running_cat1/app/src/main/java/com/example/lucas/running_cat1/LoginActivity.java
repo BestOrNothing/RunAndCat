@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -69,6 +70,15 @@ public class LoginActivity extends Activity{
     private String strPassword;   //密码字符串
     private String strID;            //账号字符串
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     //发送和接收json数据
     private void sendRequestWithHttpClient(){
         new Thread(new Runnable() {
@@ -125,6 +135,7 @@ public class LoginActivity extends Activity{
                 JSONObject para = jsonObject1.getJSONObject("para");
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 CurUser curUser = CurUser.getInstance();
+                curUser.nickname = para.getString("nickname");
                 curUser.allDist = (float)para.getDouble("allDist");
                 curUser.allTime = (float)para.getDouble("allTime");
                 curUser.catExp = para.getInt("catExp");

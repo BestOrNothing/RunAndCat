@@ -35,8 +35,8 @@ public class RankList {
                 try {
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     JSONObject para = new JSONObject();
-//                    para.put("id", CurUser.getInstance().id);
-                    para.put("id", "000");
+                    para.put("id", CurUser.getInstance().id);
+                    //para.put("id", "000");
                     JSONObject request = new JSONObject();
                     request.put("para", para);
                     params.add(new BasicNameValuePair("request", request.toString()));
@@ -47,6 +47,7 @@ public class RankList {
                         JSONObject jsonObject = new JSONObject(strResponse);
                         JSONObject head = jsonObject.getJSONObject("head");
                         list = Rankmem.getRankmemList(head.getInt("count"), head.getJSONArray("friendlist"));
+                        list.add(new Rankmem(CurUser.getInstance().id, CurUser.getInstance().nickname, CurUser.getInstance().level));
                     }
                 }catch (Exception e) {
                     e.printStackTrace();
